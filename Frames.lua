@@ -257,7 +257,7 @@ Aero:RegisterAddon("Blizzard_MacroUI", "MacroFrame")
 Aero:RegisterAddon("Blizzard_AuctionUI", "AuctionFrame", "AuctionDressUpFrame")
 Aero:RegisterAddon("Blizzard_GuildBankUI", "GuildBankFrame")
 Aero:RegisterAddon("Blizzard_TalentUI", "TalentFrame")
-Aero:RegisterAddon("Blizzard_TradeSkillUI", "TradeSkillFrame")
+-Aero:RegisterAddon("Blizzard_TradeSkillUI", "TradeSkillFrame")
 Aero:RegisterAddon("Blizzard_TrainerUI", "ClassTrainerFrame")
 Aero:RegisterAddon("Blizzard_GMSurveyUI", "GMSurveyFrame")
 Aero:RegisterAddon("Blizzard_AchievementUI", "AchievementFrame")
@@ -265,8 +265,10 @@ Aero:RegisterAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap")
 Aero:RegisterAddon("Blizzard_ItemSocketingUI", "ItemSocketingFrame")
 Aero:RegisterAddon("TimeManager", "TimeManagerFrame")
 
--- ShaguTweaks and pfUI
+-- ShaguTweaks, pfUI and Dragonflight UI
 Aero:RegisterAddon("ShaguTweaks", "AdvancedSettingsGUI")
+Aero:RegisterAddon("Turtle-Dragonflight", "AdvancedSettingsGUI")
+
 
 local function updateMapScaleAndAlpha()
     delayRun(0, function()
@@ -285,6 +287,7 @@ local shagu = CreateFrame("Frame")
 shagu:RegisterEvent("PLAYER_ENTERING_WORLD")
 shagu:SetScript("OnEvent", function()
     if IsAddOnLoaded("ShaguTweaks") then
+        UIErrorsFrame:AddMessage('ShaguTweaks is Loaded')
         if ShaguTweaks_config[ShaguTweaks.T["WorldMap Window"]] == 1 and WORLDMAP_WINDOWED == 1 then
             WorldMapFrame_Minimize()
             delayRun(0, function()
@@ -293,6 +296,16 @@ shagu:SetScript("OnEvent", function()
             end)
         end
         updateMapScaleAndAlpha()
+    elseif IsAddOnLoaded("Turtle-Dragonflight") then
+        UIErrorsFrame:AddMessage('Turtle Dragonflight Loaded')
+        if tDFUI_config[tDFUI.T["WorldMap Window"]] == 1 and WORLDMAP_WINDOWED == 1 then
+            WorldMapFrame_Minimize()
+            delayRun(0, function()
+                WorldMapFrame:SetWidth(720)
+                WorldMapFrame:SetHeight(521)
+            end)
+        end
+        updateMapScaleAndAlpha() 
     end
 
     if IsAddOnLoaded("pfUI") then
